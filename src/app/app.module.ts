@@ -16,7 +16,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
-    LeafletModule.forRoot(),
+    LeafletModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

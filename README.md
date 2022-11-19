@@ -1,4 +1,4 @@
-# MaximumChargeHackaTUM2022
+# MaximumCharge HackaTUM2022
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.1.
 

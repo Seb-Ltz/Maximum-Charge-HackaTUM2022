@@ -6,14 +6,17 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
+import { HeatMapComponent } from './heat-map/heat-map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent],
+  declarations: [AppComponent, DashboardComponent, HeatMapComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
+    LeafletModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

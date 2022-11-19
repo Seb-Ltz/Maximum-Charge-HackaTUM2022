@@ -18,7 +18,7 @@ export class HeatMapComponent {
       }),
     ],
     zoom: 12,
-    center: L.latLng(-37.87, 175.475),
+    center: L.latLng(48.137154, 11.576124),
   };
 
   onMapReady(map: any) {

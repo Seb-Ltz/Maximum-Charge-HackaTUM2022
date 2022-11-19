@@ -12,6 +12,13 @@ import { FooterComponent } from './footer/footer.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ElectricRangeMapComponent } from './electric-range-map/electric-range-map.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { StackedChartComponent } from './charts/stacked-chart/stacked-chart.component';
+import { AreaChartModule, NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -20,6 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeatMapComponent,
     FooterComponent,
     ElectricRangeMapComponent,
+    SearchBarComponent,
+    StackedChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +38,11 @@ import { HttpClientModule } from '@angular/common/http';
     LeafletModule,
     MatIconModule,
     HttpClientModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

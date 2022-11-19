@@ -1,7 +1,17 @@
 <div class="container">
-  <div class="title">
-    <h1>Maximum Charge</h1>
-    <h2>HackaTUM 2022</h2>
-  </div>
-</div>
+  <div class="side">
+    <h3>Savings</h3>
 
+    <app-stacked-chart></app-stacked-chart>
+
+    <h3>CO2 Impact</h3>
+
+    <app-stacked-chart></app-stacked-chart>
+
+    <h3>CO2 Impact</h3>
+
+    <app-stacked-chart></app-stacked-chart>
+
+  </div>
+  <app-heat-map [lat]="lat" [long]="long"></app-heat-map>
+</div>

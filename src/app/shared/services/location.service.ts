@@ -13,6 +13,14 @@ import { PopulationResponseModel } from '../models/population-response.model';
 export class LocationService {
   currentLocation?: GeocodingFeatureModel;
 
+  get lat(): number {
+    return this.currentLocation!.geometry.coordinates[1];
+  }
+
+  get lng(): number {
+    return this.currentLocation!.geometry.coordinates[0];
+  }
+
   constructor(private http: HttpClient) {}
 
   search(query: string): Observable<GeocodingFeatureModel> {

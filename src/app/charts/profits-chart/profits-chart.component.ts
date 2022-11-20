@@ -5,15 +5,17 @@ import { LocationService } from '../../shared/services/location.service';
 import { Chart, Options } from 'highcharts';
 
 @Component({
-  selector: 'app-savings-chart',
-  templateUrl: './savings-chart.component.html',
-  styleUrls: ['./savings-chart.component.scss'],
+  selector: 'app-profits-chart',
+  templateUrl: './profits-chart.component.html',
+  styleUrls: ['./profits-chart.component.scss'],
 })
-export class SavingsChartComponent implements OnInit {
+export class ProfitsChartComponent implements OnInit {
   nearestChargerCoords?: number[];
   nearestChargerDist?: number; // Between 0 and 1
-  dailyForeignUse = 0.2;
+  dailyForeignUse = 4 / 7;
   chargerCost: number = 4000;
+  hasElectricCar: boolean = false;
+  hasSolar: boolean = false;
 
   constructor(
     private heatmapService: HeatmapService,
@@ -28,7 +30,7 @@ export class SavingsChartComponent implements OnInit {
       type: 'line',
     },
     title: {
-      text: 'CO2 reduction',
+      text: 'Profits',
     },
     credits: {
       enabled: false,
@@ -71,41 +73,38 @@ export class SavingsChartComponent implements OnInit {
     });
   }
 
-  updateChart() {
-    const co2ReductionPerKWh = Array.from(Array(10).keys()).map((year) =>
-      Math.round(this.chartFunction(year)!.co2ReductionPerKWh)
+  updateChart(init = true) {
+    const profit = Array.from(Array(10).keys()).map((year) =>
+      Math.round(this.chartFunction(year)!.profit)
     );
 
-    const yearlyCO2Reduction = Array.from(Array(10).keys()).map((year) =>
-      Math.round(this.chartFunction(year)!.yearlyCO2Reduction)
-    );
-
-    let sumYearlyCo2Reduc = [];
-    for (let i = 0; i < yearlyCO2Reduction.length; i += 1) {
-      let sum = 0;
-      for (let j = 0; j < i; j += 1) {
-        sum += yearlyCO2Reduction[j];
-      }
-
-      sumYearlyCo2Reduc.push(sum);
-    }
-    //
-    // this.chartRef.addSeries(
-    //   {
-    //     type: 'line',
-    //     name: 'co2ReductionPerKWh',
-    //     data: co2ReductionPerKWh,
-    //   },
-    //   true
+    // const yearlyCO2Reduction = Array.from(Array(10).keys()).map((year) =>
+    //   Math.round(this.chartFunction(year)!.yearlyCO2Reduction)
     // );
-    this.chartRef.addSeries(
-      {
-        type: 'line',
-        name: 'yearlyCO2Reduction',
-        data: sumYearlyCo2Reduc,
-      },
-      true
-    );
+    //
+    // let sumYearlyCo2Reduc = [];
+    // for (let i = 0; i < yearlyCO2Reduction.length; i += 1) {
+    //   let sum = 0;
+    //   for (let j = 0; j < i; j += 1) {
+    //     sum += yearlyCO2Reduction[j];
+    //     console.log(j);
+    //   }
+    //
+    //   sumYearlyCo2Reduc.push(sum);
+    // }
+
+    if (init) {
+      this.chartRef.addSeries(
+        {
+          type: 'line',
+          name: 'profit',
+          data: profit,
+        },
+        true
+      );
+    } else {
+      this.chartRef.series[0].setData(profit);
+    }
 
     this.chartRef.redraw();
   }
@@ -115,12 +114,10 @@ export class SavingsChartComponent implements OnInit {
     preofitPerKWh: number;
     yearlyCO2Reduction: number;
     co2ReductionPerKWh: number;
+    profit: number;
   } {
-    let ownsEauto = true;
-    let ownsSolarPanels = true; //TODO: ADD BUTTON
-
     let dailyUse: number;
-    if (ownsEauto) {
+    if (this.hasElectricCar) {
       dailyUse = 0.8;
       dailyUse += 0.5 * this.dailyForeignUse * this.nearestChargerDist!;
     } else {
@@ -128,17 +125,22 @@ export class SavingsChartComponent implements OnInit {
     }
 
     const yearlyUse = 365.0 * dailyUse;
-    const yearlyKWh = dailyUse * 2250;
-    const co2ReductionPerKWh = ownsSolarPanels ? 420 * (28 - t) - 50 : 0.0;
+    const yearlyKWh = yearlyUse * 2250;
+    const co2ReductionPerKWh = this.hasSolar ? 420 * (28 - t) - 50 : 0.0;
     const yearlyCO2Reduction = co2ReductionPerKWh * yearlyKWh;
-    const preofitPerKWh = ownsSolarPanels ? 0.08 : 0.04;
+    const preofitPerKWh = this.hasSolar ? 0.086 : 0.037;
     const costReduction = preofitPerKWh * yearlyKWh;
-
+    const profit = -this.chargerCost + costReduction * t;
     return {
       costReduction,
       preofitPerKWh,
       yearlyCO2Reduction,
       co2ReductionPerKWh,
+      profit,
     };
+  }
+
+  redraw() {
+    this.updateChart(false);
   }
 }

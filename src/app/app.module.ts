@@ -21,6 +21,8 @@ import { StackedChartComponent } from './charts/stacked-chart/stacked-chart.comp
 import { AreaChartModule, NgxChartsModule } from '@swimlane/ngx-charts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { SavingsChartComponent } from './charts/savings-chart/savings-chart.component';
+import { ProfitsChartComponent } from './charts/profits-chart/profits-chart.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { SavingsChartComponent } from './charts/savings-chart/savings-chart.comp
     SearchBarComponent,
     StackedChartComponent,
     SavingsChartComponent,
+    ProfitsChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { SavingsChartComponent } from './charts/savings-chart/savings-chart.comp
     MatButtonModule,
     HighchartsChartModule,
     NgxChartsModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,16 +1,18 @@
 <div class="container">
   <div class="side-left">
-    <h3>Savings</h3>
+<!--    <h3>Savings</h3>-->
+
+    <app-profits-chart></app-profits-chart>
 
     <app-savings-chart></app-savings-chart>
 
-    <h3>CO2 Impact</h3>
+<!--    <h3>CO2 Impact</h3>-->
 
-    <app-stacked-chart></app-stacked-chart>
+<!--    <app-stacked-chart></app-stacked-chart>-->
 
-    <h3>CO2 Impact</h3>
+<!--    <h3>CO2 Impact</h3>-->
 
-    <app-stacked-chart></app-stacked-chart>
+<!--    <app-stacked-chart></app-stacked-chart>-->
   </div>
   <div class="side-right">
     <app-heat-map *ngIf="currentMapDisplayed === 'heatmap'" [lat]="lat" [long]="long"></app-heat-map>

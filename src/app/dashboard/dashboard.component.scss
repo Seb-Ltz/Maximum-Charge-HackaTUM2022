@@ -28,3 +28,14 @@
     }
   }
 }
+
+.checkboxes {
+  width: calc(100% - 40px);
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.full-width {
+  width: calc(100% - 40px);
+  padding: 0 20px;
+}

@@ -1,14 +1,3 @@
-
-<mat-form-field class="full-width">
-  <mat-label>Price of charger in €</mat-label>
-  <input matInput placeholder="1500" [(ngModel)]="chargerCost" (input)="redraw()">
-</mat-form-field>
-
-<div class="checkboxes">
-  <mat-checkbox class="checkboox" [(ngModel)]="hasElectricCar" (input)="redraw()">I have an electric car</mat-checkbox>
-  <mat-checkbox class="checkboox" [(ngModel)]="hasSolar" (input)="redraw()">I have Solar panels</mat-checkbox>
-</div>
-
 <highcharts-chart
   [Highcharts]="Highcharts"
   [options]="linechart"

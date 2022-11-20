@@ -1,5 +1,5 @@
 import * as Highcharts from 'highcharts';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HeatmapService } from '../../shared/services/heatmap.service';
 import { LocationService } from '../../shared/services/location.service';
 import { Chart, Options } from 'highcharts';
@@ -14,6 +14,17 @@ export class SavingsChartComponent implements OnInit {
   nearestChargerDist?: number; // Between 0 and 1
   dailyForeignUse = 0.2;
   chargerCost: number = 4000;
+  _hasElectricCar: boolean = false;
+  _hasSolar: boolean = false;
+  @Input() set hasElectricCar(val: boolean) {
+    this._hasElectricCar = val;
+    this.redraw();
+  }
+
+  @Input() set hasSolar(val: boolean) {
+    this._hasSolar = val;
+    this.redraw();
+  }
 
   constructor(
     private heatmapService: HeatmapService,
@@ -22,13 +33,19 @@ export class SavingsChartComponent implements OnInit {
 
   Highcharts = Highcharts;
   chartRef!: Chart;
-  linechart: any = {
+  linechart: Options = {
     series: [],
     chart: {
       type: 'line',
     },
+    xAxis: {
+      title: { text: 'Years' },
+    },
+    yAxis: {
+      title: { text: 'CO2 Reductions in Tons' },
+    },
     title: {
-      text: 'CO2 reduction',
+      text: 'CO2 Savings',
     },
     credits: {
       enabled: false,
@@ -71,13 +88,13 @@ export class SavingsChartComponent implements OnInit {
     });
   }
 
-  updateChart() {
+  updateChart(init = true) {
     const co2ReductionPerKWh = Array.from(Array(10).keys()).map((year) =>
       Math.round(this.chartFunction(year)!.co2ReductionPerKWh)
     );
 
     const yearlyCO2Reduction = Array.from(Array(10).keys()).map((year) =>
-      Math.round(this.chartFunction(year)!.yearlyCO2Reduction)
+      Math.round(this.chartFunction(year)!.yearlyCO2Reduction / 1000 / 1000)
     );
 
     let sumYearlyCo2Reduc = [];
@@ -98,15 +115,19 @@ export class SavingsChartComponent implements OnInit {
     //   },
     //   true
     // );
-    this.chartRef.addSeries(
-      {
-        type: 'line',
-        name: 'yearlyCO2Reduction',
-        data: sumYearlyCo2Reduc,
-      },
-      true
-    );
 
+    if (init) {
+      this.chartRef.addSeries(
+        {
+          type: 'line',
+          name: 'CO2 Saved',
+          data: sumYearlyCo2Reduc,
+        },
+        true
+      );
+    } else {
+      this.chartRef.series[0].setData(sumYearlyCo2Reduc);
+    }
     this.chartRef.redraw();
   }
 
@@ -116,11 +137,11 @@ export class SavingsChartComponent implements OnInit {
     yearlyCO2Reduction: number;
     co2ReductionPerKWh: number;
   } {
-    let ownsEauto = true;
-    let ownsSolarPanels = true; //TODO: ADD BUTTON
+    // let ownsEauto = true;
+    // let ownsSolarPanels = true; //TODO: ADD BUTTON
 
     let dailyUse: number;
-    if (ownsEauto) {
+    if (this._hasElectricCar) {
       dailyUse = 0.8;
       dailyUse += 0.5 * this.dailyForeignUse * this.nearestChargerDist!;
     } else {
@@ -129,9 +150,9 @@ export class SavingsChartComponent implements OnInit {
 
     const yearlyUse = 365.0 * dailyUse;
     const yearlyKWh = dailyUse * 2250;
-    const co2ReductionPerKWh = ownsSolarPanels ? 420 * (28 - t) - 50 : 0.0;
+    const co2ReductionPerKWh = this._hasSolar ? 420 * (28 - t) - 50 : 0.0;
     const yearlyCO2Reduction = co2ReductionPerKWh * yearlyKWh;
-    const preofitPerKWh = ownsSolarPanels ? 0.08 : 0.04;
+    const preofitPerKWh = this._hasSolar ? 0.08 : 0.04;
     const costReduction = preofitPerKWh * yearlyKWh;
 
     return {
@@ -140,5 +161,12 @@ export class SavingsChartComponent implements OnInit {
       yearlyCO2Reduction,
       co2ReductionPerKWh,
     };
+  }
+
+  redraw() {
+    if (!this.chartRef) return;
+    if (!this.nearestChargerDist) return;
+
+    this.updateChart(false);
   }
 }

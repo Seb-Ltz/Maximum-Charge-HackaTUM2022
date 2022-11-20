@@ -1,5 +1,5 @@
 import * as Highcharts from 'highcharts';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HeatmapService } from '../../shared/services/heatmap.service';
 import { LocationService } from '../../shared/services/location.service';
 import { Chart, Options } from 'highcharts';
@@ -13,9 +13,23 @@ export class ProfitsChartComponent implements OnInit {
   nearestChargerCoords?: number[];
   nearestChargerDist?: number; // Between 0 and 1
   dailyForeignUse = 4 / 7;
-  chargerCost: number = 4000;
-  hasElectricCar: boolean = false;
-  hasSolar: boolean = false;
+  _chargerCost: number = 4000;
+  _hasElectricCar: boolean = false;
+  _hasSolar: boolean = false;
+  @Input() set hasElectricCar(val: boolean) {
+    this._hasElectricCar = val;
+    this.redraw();
+  }
+
+  @Input() set hasSolar(val: boolean) {
+    this._hasSolar = val;
+    this.redraw();
+  }
+
+  @Input() set chargerCost(val: number) {
+    this._chargerCost = val;
+    this.redraw();
+  }
 
   constructor(
     private heatmapService: HeatmapService,
@@ -117,7 +131,7 @@ export class ProfitsChartComponent implements OnInit {
     profit: number;
   } {
     let dailyUse: number;
-    if (this.hasElectricCar) {
+    if (this._hasElectricCar) {
       dailyUse = 0.8;
       dailyUse += 0.5 * this.dailyForeignUse * this.nearestChargerDist!;
     } else {
@@ -126,11 +140,11 @@ export class ProfitsChartComponent implements OnInit {
 
     const yearlyUse = 365.0 * dailyUse;
     const yearlyKWh = yearlyUse * 2250;
-    const co2ReductionPerKWh = this.hasSolar ? 420 * (28 - t) - 50 : 0.0;
+    const co2ReductionPerKWh = this._hasSolar ? 420 * (28 - t) - 50 : 0.0;
     const yearlyCO2Reduction = co2ReductionPerKWh * yearlyKWh;
-    const preofitPerKWh = this.hasSolar ? 0.086 : 0.037;
+    const preofitPerKWh = this._hasSolar ? 0.086 : 0.037;
     const costReduction = preofitPerKWh * yearlyKWh;
-    const profit = -this.chargerCost + costReduction * t;
+    const profit = -this._chargerCost + costReduction * t;
     return {
       costReduction,
       preofitPerKWh,
@@ -141,6 +155,9 @@ export class ProfitsChartComponent implements OnInit {
   }
 
   redraw() {
+    if (!this.chartRef) return;
+    if (!this.nearestChargerDist) return;
+
     this.updateChart(false);
   }
 }

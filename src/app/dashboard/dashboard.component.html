@@ -1,10 +1,19 @@
 <div class="container">
   <div class="side-left">
 <!--    <h3>Savings</h3>-->
+    <mat-form-field class="full-width">
+      <mat-label>Price of charger in €</mat-label>
+      <input matInput placeholder="1500" [(ngModel)]="chargerCost">
+    </mat-form-field>
 
-    <app-profits-chart></app-profits-chart>
+    <div class="checkboxes">
+      <mat-checkbox class="checkboox" [(ngModel)]="hasElectricCar">I have an electric car</mat-checkbox>
+      <mat-checkbox class="checkboox" [(ngModel)]="hasSolar">I have Solar panels</mat-checkbox>
+    </div>
 
-    <app-savings-chart></app-savings-chart>
+    <app-profits-chart [hasElectricCar]="hasElectricCar" [hasSolar]="hasSolar" [chargerCost]="chargerCost"></app-profits-chart>
+
+    <app-savings-chart [hasElectricCar]="hasElectricCar" [hasSolar]="hasSolar"></app-savings-chart>
 
 <!--    <h3>CO2 Impact</h3>-->
 

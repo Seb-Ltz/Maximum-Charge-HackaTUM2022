@@ -9,6 +9,10 @@ import { delay, forkJoin } from 'rxjs';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  chargerCost: number = 4000;
+  hasElectricCar: boolean = true;
+  hasSolar: boolean = true;
+
   currentMapDisplayed: 'heatmap' | 'rangemap' = 'heatmap';
   MOCKED = true;
   get lat(): number {

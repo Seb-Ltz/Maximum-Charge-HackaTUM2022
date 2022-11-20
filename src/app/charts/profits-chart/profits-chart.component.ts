@@ -46,6 +46,12 @@ export class ProfitsChartComponent implements OnInit {
     title: {
       text: 'Profits',
     },
+    xAxis: {
+      title: { text: 'Years' },
+    },
+    yAxis: {
+      title: { text: 'Profits in €' },
+    },
     credits: {
       enabled: false,
     },

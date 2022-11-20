@@ -19,6 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { StackedChartComponent } from './charts/stacked-chart/stacked-chart.component';
 import { AreaChartModule, NgxChartsModule } from '@swimlane/ngx-charts';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { SavingsChartComponent } from './charts/savings-chart/savings-chart.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { AreaChartModule, NgxChartsModule } from '@swimlane/ngx-charts';
     ElectricRangeMapComponent,
     SearchBarComponent,
     StackedChartComponent,
+    SavingsChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { AreaChartModule, NgxChartsModule } from '@swimlane/ngx-charts';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    HighchartsChartModule,
     NgxChartsModule,
   ],
   providers: [],

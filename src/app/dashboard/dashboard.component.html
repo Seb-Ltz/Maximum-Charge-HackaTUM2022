@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="side">
+  <div class="side-left">
     <h3>Savings</h3>
 
-    <app-stacked-chart></app-stacked-chart>
+    <app-savings-chart></app-savings-chart>
 
     <h3>CO2 Impact</h3>
 
@@ -11,7 +11,10 @@
     <h3>CO2 Impact</h3>
 
     <app-stacked-chart></app-stacked-chart>
-
   </div>
-  <app-heat-map [lat]="lat" [long]="long"></app-heat-map>
+  <div class="side-right">
+    <app-heat-map *ngIf="currentMapDisplayed === 'heatmap'" [lat]="lat" [long]="long"></app-heat-map>
+    <app-electric-range-map *ngIf="currentMapDisplayed === 'rangemap'" [lat]="lat" [long]="long"></app-electric-range-map>
+    <app-footer [(currentlyDisplaying)]="currentMapDisplayed"></app-footer>
+  </div>
 </div>

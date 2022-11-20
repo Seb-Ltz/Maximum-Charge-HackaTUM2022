@@ -1,16 +1,11 @@
 <div class="container">
-  <div class="nav-button" [class.active]="currentRoute === '/'" [routerLink]="'/'">
-    <mat-icon>dashboard</mat-icon>
-    Dashboard
-  </div>
-
-  <div class="nav-button" [class.active]="currentRoute === '/heatmap'" [routerLink]="'/heatmap'">
+  <div class="nav-button" [class.active]="currentlyDisplaying === 'heatmap'" (click)="toggleDisplayed('heatmap')">
     <mat-icon>local_fire_department</mat-icon>
-    Heatmap
+    Chargers Heatmap
   </div>
 
-  <div class="nav-button" [class.active]="currentRoute === '/rangemap'" [routerLink]="'/rangemap'">
-    <mat-icon>power`</mat-icon>
+  <div class="nav-button" [class.active]="currentlyDisplaying === 'rangemap'" (click)="toggleDisplayed('rangemap')">
+    <mat-icon>power</mat-icon>
     EV Range
   </div>
 </div>

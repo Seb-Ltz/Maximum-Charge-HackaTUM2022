@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  public get currentRoute(): string {
-    return this.router.url;
-  }
+  @Input() currentlyDisplaying: 'heatmap' | 'rangemap' = 'heatmap';
+  @Output() currentlyDisplayingChange = new Subject<'heatmap' | 'rangemap'>();
+  constructor() {}
 
-  constructor(public router: Router) {}
+  toggleDisplayed(current: 'heatmap' | 'rangemap') {
+    this.currentlyDisplaying = current;
+    this.currentlyDisplayingChange.next(current);
+  }
 }

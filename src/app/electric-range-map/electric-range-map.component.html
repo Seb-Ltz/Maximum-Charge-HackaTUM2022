@@ -1,4 +1,4 @@
-<div
+<div *ngIf="lat && long"
   style="height: 100vh;"
   leaflet [leafletOptions]="options"
   (leafletClick)="onMapClick($event)"
